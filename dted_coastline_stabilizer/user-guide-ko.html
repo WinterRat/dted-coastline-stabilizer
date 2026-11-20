@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DTED Coastline Stabilizer 한글 사용법</title>
+  <style>
+    :root { color-scheme: light; }
+    body {
+      margin: 0;
+      background: #f5f8f7;
+      color: #20312c;
+      font: 1rem/1.75 system-ui, "Malgun Gothic", sans-serif;
+      overflow-wrap: anywhere;
+    }
+    main { max-width: 49rem; margin: auto; padding: 2.5rem 1.25rem 4rem; }
+    header { border-bottom: 2px solid #237260; padding-bottom: 1.25rem; }
+    h1, h2 { line-height: 1.35; word-break: keep-all; }
+    h1 { margin-top: 0; font-size: clamp(1.65rem, 5vw, 2.5rem); }
+    h2 { margin-top: 2.25rem; font-size: 1.35rem; }
+    h3 { font-size: 1.05rem; }
+    p { margin: .75rem 0; }
+    ul, ol { padding-inline-start: 1.5rem; }
+    li + li { margin-top: .45rem; }
+    nav ul { display: flex; flex-wrap: wrap; gap: .4rem 1.25rem; padding: 0; list-style: none; }
+    nav li { margin: 0; }
+    a { color: #175e50; text-underline-offset: .2em; }
+    code { background: #e6efeb; padding: .1em .25em; border-radius: .2em; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: .45rem .65rem; border: 1px solid #cddcd6; text-align: left; vertical-align: top; }
+    thead { background: #e6efeb; }
+    @media print {
+      body { background: #fff; }
+      main { max-width: none; padding: 0; }
+      h2, h3 { break-after: avoid; }
+      tr { break-inside: avoid; }
+    }
+  </style>
+</head>
+<body>
+<main>
+  <header>
+    <h1>DTED Coastline Stabilizer 한글 사용법</h1>
+    <p>QGIS에서 고도 자료(DTED)에 해안선을 겹쳐 보고, 검토한 해역의 고도를 0 m 또는 −50 m로 저장할 수 있습니다. 탭과 버튼은 화면에 표시되는 이름으로 안내합니다.</p>
+    <nav aria-label="목차">
+      <ul>
+        <li><a href="#quick-start">예제로 시작하기</a></li>
+        <li><a href="#install">설치</a></li>
+        <li><a href="#inputs">자료 불러오기</a></li>
+        <li><a href="#preview">미리보기와 편집</a></li>
+        <li><a href="#export">결과 저장</a></li>
+        <li><a href="#satellite">위성사진으로 해안선 생성</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <section>
+    <h2 id="quick-start">예제로 시작하기</h2>
+    <ol>
+      <li><strong>Inputs</strong> 탭의 <strong>Browse…</strong>를 눌러 프로젝트의 <code>example</code> 폴더에서 <strong>Source DTED</strong>에 <code>dem-0.tif</code>, <strong>Shoreline Shapefile</strong>에 <code>shoreline.shp</code>, <strong>RGB Imagery Folder</strong>에 <code>imagery</code> 폴더를 지정합니다. <strong>Check Inputs and Load Map</strong>을 누릅니다.</li>
+      <li><strong>Map Editing</strong> 탭에서 <strong>Sea Seed</strong>를 누른 뒤 지도 왼쪽 바다 안쪽을 한 번 클릭합니다. <strong>Land Seed</strong>를 눌러 오른쪽 육지와 왼쪽 바다에 있는 섬 안쪽에도 각각 기준점을 하나씩 추가합니다.</li>
+      <li><strong>Analysis and Export</strong> 탭의 <strong>Output Sea Elevation</strong>에서 <strong>−50 m</strong>를 선택하고 <strong>Preview DTED Elevation</strong>을 누릅니다. 분류가 모호한 곳은 <a href="#preview">미리보기와 편집</a>을 따라 확인합니다.</li>
+      <li>결과를 확인한 뒤 <strong>Validate and Export…</strong>을 누르고 저장할 위치를 선택합니다. 새 결과 폴더의 <code>elevation.tif</code>가 보정한 고도 파일입니다.</li>
+    </ol>
+    <p>해안선 파일 없이 컬러 위성사진부터 시작하려면 <a href="#satellite">위성사진으로 해안선 생성</a>을 따라 하세요.</p>
+  </section>
+
+  <section>
+    <h2 id="install">1. QGIS에 설치하기</h2>
+    <ol>
+      <li>QGIS 4.2.2에서 <strong>Plugins → Manage and Install Plugins… → Install from ZIP</strong>을 엽니다.</li>
+      <li><code>dted_coastline_stabilizer.zip</code>을 압축 해제하지 않은 상태로 선택하고 <strong>Install Plugin</strong>을 누릅니다.</li>
+      <li>패널을 닫았다면 <strong>Plugins → DTED Coastline Stabilizer → DTED Coastline Stabilizer</strong>에서 다시 엽니다. 패널 상단의 <strong>한글 사용법</strong> 또는 같은 메뉴의 <strong>Korean User Guide</strong>로 안내서를 열 수 있습니다.</li>
+    </ol>
+    <p>QGIS 메뉴를 영어로 표시하려면 <strong>Settings → Options → General</strong>에서 <strong>Override System Locale</strong>을 켜고 <strong>User interface translation</strong>을 <strong>American English</strong>로 바꾼 뒤 QGIS를 다시 실행합니다.</p>
+  </section>
+
+  <section>
+    <h2 id="satellite">위성사진으로 해안선 생성</h2>
+    <p><strong>Satellite</strong> 탭에서는 RGB GeoTIFF만으로 해역과 해안선을 만들 수 있습니다. 처음에는 <code>example/imagery/synthetic-rgb.tif</code>로 연습해 보세요.</p>
+    <ol>
+      <li><strong>Load RGB GeoTIFFs…</strong>에서 영상 파일을 고릅니다. 여러 타일에 걸친 구역은 파일을 함께 선택합니다.</li>
+      <li><strong>Draw Area of Interest</strong>를 누릅니다. 육지와 외해가 모두 들어가는 구역의 꼭짓점을 왼쪽 클릭으로 찍고 오른쪽 클릭으로 마칩니다. 넓은 구역은 분석 해상도를 자동으로 낮추므로 작은 해안 지형의 세부 묘사가 줄어들 수 있습니다.</li>
+      <li><strong>Add Land Sample</strong>와 <strong>Add Offshore Sample</strong>를 눌러 경계에서 떨어진 대표 지점을 각각 찍습니다. 색과 질감이 다른 육지나 외해가 보이면 표본을 추가한 뒤 <strong>Generate Sea Area and Coastline</strong>을 누릅니다.</li>
+      <li>지도에 표시된 해역을 살펴보고, <strong>Review Areas</strong> 목록을 클릭해 갯벌·하구 후보나 영상 공백으로 이동합니다. <strong>Edit Coastline Vertices</strong>을 누르면 QGIS 정점 도구로 해역의 가장자리를 수정할 수 있습니다. 해안선도 함께 갱신됩니다.</li>
+      <li><strong>Save Coastline and Sea Shapefiles…</strong>을 누르면 선택한 위치 아래의 새 폴더에 선과 면이 각각 저장됩니다. 두 SHP의 <code>.shx</code>, <code>.dbf</code>, <code>.prj</code> 파일을 같은 폴더에 둡니다. 저장한 SHP를 QGIS 지도에 끌어다 놓아 열 수 있습니다.</li>
+      <li>최종 해역을 <strong>Approve Sea Area for DTED</strong>로 선택합니다. <strong>Inputs</strong>에서 <strong>Source DTED</strong>를 고르고 <strong>Check Inputs and Load Map</strong>을 누릅니다. <strong>Analysis and Export</strong>에서 0 m 또는 −50 m를 선택해 미리 보거나 저장합니다. 선택한 폴리곤 안의 유효한 DTED 픽셀에만 지정 고도가 적용됩니다.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="inputs">2. 자료 불러오기</h2>
+    <p><strong>Inputs</strong> 탭에서 각 항목의 <strong>Browse…</strong>를 눌러 파일이나 폴더를 선택합니다. 처음에는 프로젝트의 <code>example</code> 폴더에 있는 예제로 연습할 수 있습니다.</p>
+    <table>
+      <thead><tr><th scope="col">화면 항목</th><th scope="col">선택할 자료</th></tr></thead>
+      <tbody>
+        <tr><th scope="row">Source DTED</th><td>원본 고도 파일. 예제는 <code>dem-0.tif</code>이며, 기존 해역 고도가 −50 m인 예제는 <code>dem--50.tif</code>입니다.</td></tr>
+        <tr><th scope="row">RGB Imagery Folder</th><td>컬러 GeoTIFF가 들어 있는 폴더. 예제는 <code>imagery</code> 폴더이며 영상 없이 작업할 경우 비워 둡니다.</td></tr>
+        <tr><th scope="row">Shoreline Shapefile</th><td>선으로 그려진 해안선 파일. 예제는 <code>shoreline.shp</code>입니다.</td></tr>
+        <tr><th scope="row">Validation Reference</th><td>결과와 비교할 참조 고도 파일. 참조 자료가 있을 때 선택합니다.</td></tr>
+        <tr><th scope="row">Verified Sea Areas</th><td>이미 해역으로 확인한 구역을 담은 폴리곤 파일이 있을 때 선택합니다.</td></tr>
+      </tbody>
+    </table>
+    <p><strong>Check Inputs and Load Map</strong>을 누릅니다. 해안선의 좌표계를 확인하라는 메시지가 나오면 자료 제공자가 확인한 좌표계 코드를 <strong>Shoreline CRS</strong>에 넣고 <strong>Confirm Shoreline CRS</strong>를 누른 뒤 입력 검사를 다시 실행합니다. <strong>Working CRS (meters)</strong>는 거리 계산에 사용하는 좌표계로 기본값은 <code>EPSG:32652</code>입니다.</p>
+  </section>
+
+  <section>
+    <h2 id="preview">3. 미리 보고 해안선 수정하기</h2>
+    <ol>
+      <li><strong>Analysis and Export</strong> 탭에서 <strong>Input Sea Elevation</strong>을 고릅니다. 기존 자료의 바다 고도를 알면 <strong>0 m</strong> 또는 <strong>−50 m</strong>를, 모르면 <strong>Auto Detect</strong>를 선택합니다. 기존 고도를 판정에 참고하지 않으려면 <strong>Disabled</strong>를 선택합니다.</li>
+      <li><strong>Output Sea Elevation</strong>에서 결과에 쓸 바다 고도를 고르고 <strong>Preview DTED Elevation</strong>를 누릅니다. 새 작업의 −50 m 결과는 해안에서 바다 쪽으로 12 m에 걸쳐 부드럽게 내려갑니다. <strong>Transition Width</strong>에서 폭을 바꾸거나 0 m로 설정할 수 있습니다. <strong>Validation Reference</strong>를 불러오면 참조와 결과에 같은 고도 표시 범위를 적용합니다.</li>
+      <li><strong>Map Editing</strong> 탭의 <strong>Review Areas</strong>에서 항목을 클릭해 확인이 필요한 구역으로 이동합니다. <strong>Inspect Elevation</strong>을 누르고 지도 위 지점을 클릭하면 원본 고도를 볼 수 있습니다. 미리보기가 있으면 결과 고도와 분류도 표시됩니다.</li>
+      <li><strong>Land Seed</strong>나 <strong>Sea Seed</strong>를 누르고 확실한 육지나 바다의 안쪽을 클릭하면 분류 기준점을 추가할 수 있습니다. 예제에서는 서쪽 바다, 동쪽 육지, 바다에 떨어진 섬에 각각 기준점을 찍어 봅니다.</li>
+      <li>해안선을 바꾸려면 <strong>Start DTED Editing</strong>을 누릅니다. <strong>Edit Vertices</strong>로 선의 점을 옮기거나 추가·삭제할 수 있습니다. <strong>Replace Segment</strong>는 같은 해안선 위의 두 지점 사이를 다시 그리고, <strong>Add Shoreline</strong>은 새 선을 그립니다. 점을 왼쪽 클릭으로 찍고, 오른쪽 클릭으로 마칩니다. 그리기를 취소하려면 <kbd>Esc</kbd>를 누릅니다.</li>
+      <li>특정 구역을 직접 분류하려면 <strong>Force Land</strong>(육지), <strong>Force Sea</strong>(바다), <strong>Keep Original</strong>(원본 고도 유지) 중 하나를 선택하고 지도에서 구역을 그립니다. 세 점 이상 찍은 뒤 오른쪽 클릭으로 닫습니다. 구역이 겹치는 곳에는 가장 최근에 그린 구역의 설정이 적용됩니다.</li>
+      <li>활성 편집 레이어에서 <strong>Undo</strong>와 <strong>Redo</strong>를 사용할 수 있습니다. 수정이 끝나면 <strong>Preview DTED Elevation</strong>를 다시 눌러 결과를 확인합니다.</li>
+    </ol>
+  </section>
+
+  <section>
+    <h2 id="export">4. 결과 저장하기</h2>
+    <ol>
+      <li><strong>Analysis and Export</strong>에서 <strong>Export Format</strong>을 선택하고 <strong>Validate and Export…</strong>를 누릅니다. 미리보기와 내보내기는 래스터 타일을 여러 CPU 코어로 나눠 처리합니다. <strong>GeoTIFF</strong>는 원본 격자를 유지합니다. DTED 레벨을 선택하면 최근접 이웃 방식으로 변환한 WGS 84 1도 타일도 함께 저장됩니다. 결과는 선택한 위치의 <code>coast-</code> 폴더에 저장됩니다.</li>
+      <li>지도에서 결과가 보이지 않으면 QGIS 레이어 목록에서 <strong>Output Elevation</strong>, <strong>Sea Mask</strong> 또는 <strong>Changed Pixels</strong>를 켭니다.</li>
+      <li>수정한 해안선만 따로 저장하려면 <strong>Map Editing → Save Edited Shoreline…</strong>에서 GeoPackage(<code>.gpkg</code>)로 저장합니다. 이후 작업을 이어가려면 QGIS 프로젝트(<code>.qgz</code>)도 저장하고, 프로젝트가 참조하는 입력 파일과 작업 파일을 같은 위치에 둡니다.</li>
+    </ol>
+    <table>
+      <thead><tr><th scope="col">결과 파일</th><th scope="col">내용</th></tr></thead>
+      <tbody>
+        <tr><th scope="row"><code>elevation.tif</code></th><td>해역 고도를 반영한 GeoTIFF</td></tr>
+        <tr><th scope="row"><code>.dt0</code>, <code>.dt1</code>, <code>.dt2</code></th><td>DTED 레벨을 선택했을 때 함께 저장되는 표준 DTED 타일</td></tr>
+        <tr><th scope="row"><code>sea-mask.tif</code></th><td>육지 1, 바다 2, 미확정 3, 원본 유지 4, 자료 없음 255</td></tr>
+        <tr><th scope="row"><code>changed-pixels.tif</code></th><td>원본에서 고도가 바뀐 픽셀의 위치</td></tr>
+        <tr><th scope="row"><code>coast.gpkg</code></th><td>자동·수정 해안선, 검토 구역, 분류 구역, 기준점 및 편집 기록</td></tr>
+        <tr><th scope="row"><code>settings.json</code>, <code>statistics.json</code></th><td>실행 설정과 변경 픽셀 수, 미확정 면적 등 처리 통계</td></tr>
+      </tbody>
+    </table>
+  </section>
+</main>
+</body>
+</html>

@@ -1,0 +1,13 @@
+[general]
+name=DTED Coastline Stabilizer
+description=Generate coastlines from satellite imagery and stabilize DTED elevations
+version=1.1.4
+qgisMinimumVersion=4.2.2
+author=Craft Anything
+email=
+about=Generate editable sea areas and coastlines from RGB GeoTIFFs, save shapefiles, and apply sea elevations to DTED.
+category=Raster
+experimental=False
+deprecated=False
+hasProcessingProvider=no
+supportsQt6=True
